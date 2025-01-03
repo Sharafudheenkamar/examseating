@@ -582,6 +582,8 @@ class Allocateseat(View):
                         seating_entry = Seatingarrangement(
                             classroom_number=classroom, seat_number=seat + 1,
                             subject=subject_instance, exam_date=exam_date,
+                            exam_name=exam_details.filter(exam_subject__subjectcode=subject_code).first().exam_name,
+                            exam_time=exam_details.filter(exam_subject__subjectcode=subject_code).first().exam_time,
                             register_no=student.registerno  # Assign the register number here
                         )
 
@@ -765,3 +767,15 @@ def get_exam_halls(request):
     exam_halls = Classroom.objects.filter(seatingarrangement__exam_date=formatted_date).values('hallno').distinct()
     print(exam_halls)
     return JsonResponse(list(exam_halls), safe=False)
+from django.shortcuts import render
+from .models import Seatingarrangement, Classroom
+
+def seating_arrangement_view(request):
+    classrooms = Classroom.objects.all()
+    arrangements = Seatingarrangement.objects.all()
+
+    context = {
+        'classrooms': classrooms,
+        'arrangements': arrangements,
+    }
+    return render(request, 'seating_arrangement.html', context)

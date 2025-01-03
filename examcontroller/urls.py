@@ -38,6 +38,7 @@ urlpatterns=[
     path('addstaff/', AddStaff.as_view(), name='addclassroom'),
     path('deletestaff/<id>', Deletestaff.as_view(), name='deleteclassroom'),
     path('get_exam_halls/', get_exam_halls, name='get_exam_halls'),
+    path('seating_arrangement_view',seating_arrangement_view,name='seating_arrangement_view')
 
 
 
